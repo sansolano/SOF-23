@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial Académico - Asistente Académico</title>
+    <link rel="stylesheet" href="css/historial.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="assets/images/uia_icon.png" alt="UIA Logo">
+        </div>
+        <div class="menu-items">
+            <div class="menu-item" onclick="navigate('dashboard')">
+                <span>📊</span>
+                <span>Dashboard</span>
+            </div>
+            <div class="menu-item active">
+                <span>📚</span>
+                <span>Mi Historial</span>
+            </div>
+            <div class="menu-item" onclick="navigate('recomendaciones')">
+                <span>💡</span>
+                <span>Recomendaciones</span>
+            </div>
+            <div class="menu-item" onclick="navigate('cursos')">
+                <span>📖</span>
+                <span>Catálogo de Cursos</span>
+            </div>
+        </div>
+        <div class="logout-section">
+            <button class="logout-btn" onclick="logout()">
+                <span>🚪</span>
+                <span>Cerrar Sesión</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <a href="dashboard.html" class="back-btn">← Volver al Dashboard</a>
+        </div>
+
+        <!-- Estadísticas -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-value" id="totalCreditos">45</div>
+                <div class="stat-label">Créditos Aprobados</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="cursosAprobados">12</div>
+                <div class="stat-label">Cursos Aprobados</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="cursosEnCurso">3</div>
+                <div class="stat-label">Cursos en Curso</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="promedio">85</div>
+                <div class="stat-label">Promedio General</div>
+            </div>
+        </div>
+
+        <!-- Progreso de Carrera -->
+        <div class="content-section">
+            <h2 class="section-title">📈 Progreso de Carrera</h2>
+            <p style="color: #666; margin-bottom: 10px;">Has completado el 37% de tu carrera</p>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 37%;">45 / 120 créditos</div>
+            </div>
+        </div>
+
+        <!-- Historial de Cursos -->
+        <div class="content-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 class="section-title">📚 Historial de Cursos</h2>
+                <button class="btn-primary" onclick="abrirModalAgregar()">+ Agregar Curso</button>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="cambiarTab('aprobados')">Aprobados</button>
+                <button class="tab" onclick="cambiarTab('en-curso')">En Curso</button>
+                <button class="tab" onclick="cambiarTab('pendientes')">Pendientes</button>
+            </div>
+
+            <!-- Tab Cursos Aprobados -->
+            <div id="aprobados" class="tab-content active">
+                <table class="course-table">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre del Curso</th>
+                            <th>Créditos</th>
+                            <th>Calificación</th>
+                            <th>Período</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cursosAprobadosTable">
+                        <tr>
+                            <td>SOF-01</td>
+                            <td>Introducción a la Programación</td>
+                            <td>3</td>
+                            <td>90</td>
+                            <td>I-2024</td>
+                            <td><span class="badge badge-success">Aprobado</span></td>
+                            <td><button class="btn-secondary" onclick="verDetalle('SOF-01')">Ver</button></td>
+                        </tr>
+                        <tr>
+                            <td>SOF-02</td>
+                            <td>Estructuras de Datos</td>
+                            <td>3</td>
+                            <td>85</td>
+                            <td>II-2024</td>
+                            <td><span class="badge badge-success">Aprobado</span></td>
+                            <td><button class="btn-secondary" onclick="verDetalle('SOF-02')">Ver</button></td>
+                        </tr>
+                        <tr>
+                            <td>SOF-04</td>
+                            <td>Bases de Datos I</td>
+                            <td>3</td>
+                            <td>88</td>
+                            <td>II-2024</td>
+                            <td><span class="badge badge-success">Aprobado</span></td>
+                            <td><button class="btn-secondary" onclick="verDetalle('SOF-04')">Ver</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tab Cursos En Curso -->
+            <div id="en-curso" class="tab-content">
+                <table class="course-table">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre del Curso</th>
+                            <th>Créditos</th>
+                            <th>Progreso</th>
+                            <th>Período</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>SOF-03</td>
+                            <td>Algoritmos</td>
+                            <td>3</td>
+                            <td>75%</td>
+                            <td>III-2025</td>
+                            <td><span class="badge badge-warning">En Curso</span></td>
+                        </tr>
+                        <tr>
+                            <td>SOF-06</td>
+                            <td>Desarrollo Web</td>
+                            <td>3</td>
+                            <td>60%</td>
+                            <td>III-2025</td>
+                            <td><span class="badge badge-warning">En Curso</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Tab Cursos Pendientes -->
+            <div id="pendientes" class="tab-content">
+                <table class="course-table">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre del Curso</th>
+                            <th>Créditos</th>
+                            <th>Requisitos</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>SOF-05</td>
+                            <td>Bases de Datos II</td>
+                            <td>3</td>
+                            <td>SOF-04</td>
+                            <td><span class="badge badge-info">Disponible</span></td>
+                        </tr>
+                        <tr>
+                            <td>SOF-07</td>
+                            <td>Programación Orientada a Objetos</td>
+                            <td>3</td>
+                            <td>SOF-02</td>
+                            <td><span class="badge badge-info">Disponible</span></td>
+                        </tr>
+                        <tr>
+                            <td>SOF-08</td>
+                            <td>Ingeniería de Software</td>
+                            <td>4</td>
+                            <td>SOF-07</td>
+                            <td><span class="badge">Bloqueado</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Agregar Curso -->
+    <div id="modalAgregar" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-header">➕ Agregar Curso al Historial</h2>
+            <form id="formAgregarCurso">
+                <div class="form-group">
+                    <label>Curso</label>
+                    <select id="cursoSelect" required>
+                        <option value="">Selecciona un curso</option>
+                        <option value="SOF-09">SOF-09 - Redes de Computadoras</option>
+                        <option value="SOF-10">SOF-10 - Sistemas Operativos</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Estado</label>
+                    <select id="estadoSelect" required>
+                        <option value="aprobado">Aprobado</option>
+                        <option value="en-curso">En Curso</option>
+                    </select>
+                </div>
+                <div class="form-group" id="calificacionGroup">
+                    <label>Calificación</label>
+                    <input type="number" id="calificacionInput" min="0" max="100" placeholder="0-100">
+                </div>
+                <div class="form-group">
+                    <label>Período</label>
+                    <input type="text" id="periodoInput" placeholder="Ej: III-2025" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="cerrarModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Verificar autenticación
+        window.onload = function() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+        };
+
+        function navigate(page) {
+            window.location.href = `${page}.html`;
+        }
+
+        function logout() {
+            if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                alert('Sesión cerrada correctamente');
+                window.location.href = 'login.html';
+            }
+        }
+
+        function cambiarTab(tabId) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        function abrirModalAgregar() {
+            document.getElementById('modalAgregar').classList.add('active');
+        }
+
+        function cerrarModal() {
+            document.getElementById('modalAgregar').classList.remove('active');
+        }
+
+        function verDetalle(codigo) {
+            alert(`Ver detalles del curso ${codigo}`);
+        }
+
+        document.getElementById('estadoSelect').addEventListener('change', function() {
+            const calificacionGroup = document.getElementById('calificacionGroup');
+            if (this.value === 'aprobado') {
+                calificacionGroup.style.display = 'block';
+                document.getElementById('calificacionInput').required = true;
+            } else {
+                calificacionGroup.style.display = 'none';
+                document.getElementById('calificacionInput').required = false;
+            }
+        });
+
+        document.getElementById('formAgregarCurso').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const curso = document.getElementById('cursoSelect').value;
+            const estado = document.getElementById('estadoSelect').value;
+            const calificacion = document.getElementById('calificacionInput').value;
+            const periodo = document.getElementById('periodoInput').value;
+
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('http://localhost:8000/api/historial', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ curso, estado, calificacion, periodo })
+                });
+
+                if (response.ok) {
+                    alert('Curso agregado exitosamente');
+                    cerrarModal();
+                    location.reload();
+                } else {
+                    throw new Error('Error al agregar curso');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error al agregar el curso');
+            }
+        });
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('modalAgregar');
+            if (event.target === modal) {
+                cerrarModal();
+            }
+        };
+    </script>
+</body>
+</html>

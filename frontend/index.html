@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistente Académico Inteligente - UIA</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Asistente Académico Inteligente</h1>
+                <p>Planifica tu carrera universitaria con el poder de la Inteligencia Artificial y la programación lógica. Obtén recomendaciones personalizadas basadas en tu historial académico.</p>
+                <div class="hero-buttons">
+                    <a href="login.html" class="btn btn-primary">Iniciar Sesión</a>
+                    <a href="#features" class="btn btn-secondary">Conocer Más</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-icon">🤖</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="features-container">
+            <div class="section-header">
+                <h2>Características Principales</h2>
+                <p>Todo lo que necesitas para planificar tu camino al éxito académico</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>IA Generativa</h3>
+                    <p>Explicaciones personalizadas y comprensibles sobre cada recomendación de curso, generadas por inteligencia artificial avanzada.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Motor Prolog</h3>
+                    <p>Sistema de inferencia lógica que valida automáticamente requisitos, secuencias y restricciones curriculares con precisión matemática.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Dashboard Inteligente</h3>
+                    <p>Visualiza tu progreso académico, créditos aprobados y estadísticas en tiempo real en un panel intuitivo y fácil de usar.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>Gestión de Historial</h3>
+                    <p>Registra y administra todos tus cursos aprobados, en curso y pendientes en un solo lugar organizado.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Recomendaciones Personalizadas</h3>
+                    <p>Recibe sugerencias de cursos adaptadas a tu situación académica específica y tus objetivos de carrera.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📖</div>
+                    <h3>Catálogo Completo</h3>
+                    <p>Explora todos los cursos disponibles con información detallada de requisitos, créditos y contenidos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Section -->
+    <section class="technology">
+        <div class="features-container">
+            <div class="section-header">
+                <h2>Tecnologías Implementadas</h2>
+                <p>Arquitectura moderna con las mejores herramientas del mercado</p>
+            </div>
+
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <div class="feature-icon">🌐</div>
+                    <h4>Frontend Web</h4>
+                    <p>HTML5, CSS3, JavaScript moderno con diseño responsivo</p>
+                </div>
+
+                <div class="tech-item">
+                    <div class="feature-icon">⚡</div>
+                    <h4>Microservicios</h4>
+                    <p>FastAPI / Spring Boot para arquitectura escalable</p>
+                </div>
+
+                <div class="tech-item">
+                    <div class="feature-icon">🔮</div>
+                    <h4>Prolog</h4>
+                    <p>Motor de inferencia lógica para validación de requisitos</p>
+                </div>
+
+                <div class="tech-item">
+                    <div class="feature-icon">🤖</div>
+                    <h4>IA Generativa</h4>
+                    <p>Ollama, Hugging Face o API de IA local</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <h2>¿Listo para Optimizar tu Carrera?</h2>
+        <p>Únete a cientos de estudiantes que ya están planificando su éxito académico</p>
+        <a href="login.html" class="btn btn-primary" style="background: white; color: #1a1a1a;">Comenzar Ahora</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 Universidad Internacional de las Américas - Escuela de Ingeniería Informática</p>
+        <p>Proyecto del Curso: SOF-23 Lenguajes y Paradigmas de Programación</p>
+    </footer>
+
+    <script>
+        // Smooth scroll para los enlaces
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Verificar si ya hay sesión activa al cargar
+        window.onload = function() {
+            const token = localStorage.getItem('token');
+            if (token) {
+                // Si hay sesión, ofrecer ir directamente al dashboard
+                const heroButtons = document.querySelector('.hero-buttons');
+                heroButtons.innerHTML = `
+                    <a href="dashboard.html" class="btn btn-primary">Ir al Dashboard</a>
+                    <a href="#features" class="btn btn-secondary">Conocer Más</a>
+                `;
+            }
+        };
+    </script>
+</body>
+</html>

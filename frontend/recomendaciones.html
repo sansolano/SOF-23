@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recomendaciones - Asistente Académico</title>
+    <link rel="stylesheet" href="css/recomendaciones.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="assets/images/uia_icon.png" alt="UIA Logo">
+        </div>
+        <div class="menu-items">
+            <div class="menu-item" onclick="navigate('dashboard')">
+                <span>📊</span>
+                <span>Dashboard</span>
+            </div>
+            <div class="menu-item" onclick="navigate('historial')">
+                <span>📚</span>
+                <span>Mi Historial</span>
+            </div>
+            <div class="menu-item active">
+                <span>💡</span>
+                <span>Recomendaciones</span>
+            </div>
+            <div class="menu-item" onclick="navigate('cursos')">
+                <span>📖</span>
+                <span>Catálogo de Cursos</span>
+            </div>
+        </div>
+        <div class="logout-section">
+            <button class="logout-btn" onclick="logout()">
+                <span>🚪</span>
+                <span>Cerrar Sesión</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <a href="dashboard.html" class="back-btn">← Volver al Dashboard</a>
+        </div>
+
+        <!-- Formulario de Selección -->
+        <div class="content-section" id="formSection">
+            <h2 class="section-title">Obtener Recomendaciones Personalizadas</h2>
+            
+            <form id="recommendationForm">
+                <div class="form-group">
+                    <label>Selecciona los cursos que ya has aprobado:</label>
+                    <div class="checkbox-grid" id="cursosGrid">
+                        <!-- Los cursos se cargarán dinámicamente -->
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary" id="submitBtn">
+                    🤖 Generar Recomendaciones con IA
+                </button>
+            </form>
+        </div>
+
+        <!-- Loading -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <h3>Analizando tu historial académico...</h3>
+            <p>El motor Prolog está evaluando requisitos y la IA está preparando tus recomendaciones</p>
+        </div>
+
+        <!-- Resultados -->
+        <div class="results-container" id="resultsContainer">
+            <div class="content-section">
+                <h2 class="section-title">✨ Tus Recomendaciones Personalizadas</h2>
+                <div id="recommendationsList"></div>
+            </div>
+
+            <button class="btn-primary" onclick="nuevaConsulta()">Nueva Consulta</button>
+        </div>
+    </div>
+
+    <script>
+        // Cursos de ejemplo - En producción vendrían del backend
+        const cursosDisponibles = [
+            { codigo: 'SOF-01', nombre: 'Introducción a la Programación', creditos: 3, nivel: 'inicial' },
+            { codigo: 'SOF-02', nombre: 'Estructuras de Datos', creditos: 3, nivel: 'intermedio', requisitos: ['SOF-01'] },
+            { codigo: 'SOF-03', nombre: 'Algoritmos', creditos: 3, nivel: 'intermedio', requisitos: ['SOF-02'] },
+            { codigo: 'SOF-04', nombre: 'Bases de Datos I', creditos: 3, nivel: 'intermedio', requisitos: ['SOF-01'] },
+            { codigo: 'SOF-05', nombre: 'Bases de Datos II', creditos: 3, nivel: 'avanzado', requisitos: ['SOF-04'] },
+            { codigo: 'SOF-06', nombre: 'Desarrollo Web', creditos: 3, nivel: 'intermedio', requisitos: ['SOF-01'] },
+            { codigo: 'SOF-07', nombre: 'Programación Orientada a Objetos', creditos: 3, nivel: 'intermedio', requisitos: ['SOF-02'] },
+            { codigo: 'SOF-08', nombre: 'Ingeniería de Software', creditos: 4, nivel: 'avanzado', requisitos: ['SOF-07'] },
+        ];
+
+        window.onload = function() {
+            // Verificar autenticación
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+            cargarCursos();
+        };
+
+        function cargarCursos() {
+            const grid = document.getElementById('cursosGrid');
+            cursosDisponibles.forEach(curso => {
+                const item = document.createElement('div');
+                item.className = 'checkbox-item';
+                item.innerHTML = `
+                    <input type="checkbox" id="${curso.codigo}" value="${curso.codigo}">
+                    <label for="${curso.codigo}">
+                        <span class="course-code">${curso.codigo}</span> - ${curso.nombre}
+                    </label>
+                `;
+                grid.appendChild(item);
+            });
+        }
+
+        document.getElementById('recommendationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const checkboxes = document.querySelectorAll('#cursosGrid input[type="checkbox"]:checked');
+            const cursosAprobados = Array.from(checkboxes).map(cb => cb.value);
+
+            if (cursosAprobados.length === 0) {
+                alert('Por favor selecciona al menos un curso aprobado');
+                return;
+            }
+
+            // Mostrar loading
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+
+            try {
+                // Llamada al backend que integra Prolog + IA
+                const token = localStorage.getItem('token');
+                const response = await fetch('http://localhost:8000/api/recomendaciones', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ cursosAprobados })
+                });
+
+                if (response.ok) {
+                    const recomendaciones = await response.json();
+                    mostrarRecomendaciones(recomendaciones);
+                } else {
+                    throw new Error('Error al obtener recomendaciones');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error al obtener recomendaciones. Por favor intenta de nuevo.');
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('formSection').style.display = 'block';
+            }
+        });
+
+        function mostrarRecomendaciones(recomendaciones) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('resultsContainer').style.display = 'block';
+
+            const lista = document.getElementById('recommendationsList');
+            lista.innerHTML = '';
+
+            if (recomendaciones.length === 0) {
+                lista.innerHTML = '<div class="no-recommendations"><h3>No hay cursos disponibles</h3><p>Has completado todos los requisitos o no hay cursos disponibles en este momento.</p></div>';
+                return;
+            }
+
+            recomendaciones.forEach(rec => {
+                const card = document.createElement('div');
+                card.className = 'recommendation-card';
+                card.innerHTML = `
+                    <div class="course-header">
+                        <div class="course-info">
+                            <h3>${rec.codigo} - ${rec.nombre}</h3>
+                            <p class="course-meta">📚 ${rec.creditos} créditos | 📊 Nivel: ${rec.nivel}</p>
+                        </div>
+                        <div class="course-badge">Recomendado</div>
+                    </div>
+
+                    <div class="prolog-analysis">
+                        <h4>🔍 Análisis Lógico (Prolog)</h4>
+                        <ul>
+                            ${rec.analisisProlog.map(punto => `<li>${punto}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="ai-explanation">
+                        <h4>🤖 Explicación IA</h4>
+                        <p>${rec.explicacionIA}</p>
+                    </div>
+                `;
+                lista.appendChild(card);
+            });
+        }
+
+        function nuevaConsulta() {
+            document.getElementById('resultsContainer').style.display = 'none';
+            document.getElementById('formSection').style.display = 'block';
+            document.querySelectorAll('#cursosGrid input[type="checkbox"]').forEach(cb => cb.checked = false);
+        }
+
+        function navigate(page) {
+            window.location.href = `${page}.html`;
+        }
+
+        function logout() {
+            if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                alert('Sesión cerrada correctamente');
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>

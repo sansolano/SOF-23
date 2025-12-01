@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Asistente Académico</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <img src="assets/images/uia_icon.png" alt="UIA Logo">
+        </div>
+        <div class="menu-items">
+            <div class="menu-item active" onclick="navigate('dashboard')">
+                <span>📊</span>
+                <span>Dashboard</span>
+            </div>
+            <div class="menu-item" onclick="navigate('historial')">
+                <span>📚</span>
+                <span>Mi Historial</span>
+            </div>
+            <div class="menu-item" onclick="navigate('recomendaciones')">
+                <span>💡</span>
+                <span>Recomendaciones</span>
+            </div>
+            <div class="menu-item" onclick="navigate('cursos')">
+                <span>📖</span>
+                <span>Catálogo de Cursos</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <div>
+                <h1>Bienvenido de nuevo</h1>
+                <p style="color: #666;">Panel de Control Académico</p>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">E</div>
+                <div>
+                    <div style="font-weight: 600;" id="userName">Estudiante</div>
+                    <div style="font-size: 14px; color: #666;">Ingeniería Informática</div>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <span>🚪</span>
+                    <span>Cerrar Sesión</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="cards-container">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Créditos Aprobados</div>
+                        <div class="card-value" id="creditosAprobados">45</div>
+                    </div>
+                    <div class="card-icon blue">📚</div>
+                </div>
+                <p style="font-size: 14px; color: #666;">De 120 créditos totales</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Cursos Completados</div>
+                        <div class="card-value" id="cursosCompletados">12</div>
+                    </div>
+                    <div class="card-icon green">✅</div>
+                </div>
+                <p style="font-size: 14px; color: #666;">38 cursos restantes</p>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Cursos Disponibles</div>
+                        <div class="card-value" id="cursosDisponibles">8</div>
+                    </div>
+                    <div class="card-icon orange">🎯</div>
+                </div>
+                <p style="font-size: 14px; color: #666;">Para el próximo cuatrimestre</p>
+            </div>
+        </div>
+
+        <!-- Main Actions Section -->
+        <div class="main-section">
+            <h2 class="section-title">¿Qué deseas hacer hoy?</h2>
+            
+            <div class="actions-grid">
+                <div class="action-card" onclick="navigate('recomendaciones')">
+                    <div class="action-icon">🤖</div>
+                    <div class="action-title">Obtener Recomendaciones</div>
+                    <div class="action-description">El asistente IA te sugerirá los mejores cursos según tu historial</div>
+                </div>
+
+                <div class="action-card" onclick="navigate('historial')">
+                    <div class="action-icon">📝</div>
+                    <div class="action-title">Actualizar Historial</div>
+                    <div class="action-description">Registra los cursos que has aprobado o estás cursando</div>
+                </div>
+
+                <div class="action-card" onclick="navigate('cursos')">
+                    <div class="action-icon">🔍</div>
+                    <div class="action-title">Explorar Cursos</div>
+                    <div class="action-description">Consulta el catálogo completo de la carrera</div>
+                </div>
+
+                <div class="action-card" onclick="planificar()">
+                    <div class="action-icon">📅</div>
+                    <div class="action-title">Planificar Ruta</div>
+                    <div class="action-description">Crea tu plan académico hasta la graduación</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Verificar autenticación y cargar información del usuario
+        window.onload = function() {
+            // Verificar si hay sesión activa
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            if (user.nombre) {
+                document.getElementById('userName').textContent = user.nombre;
+                document.getElementById('userAvatar').textContent = user.nombre.charAt(0).toUpperCase();
+            }
+
+            // Cargar estadísticas desde el backend
+            cargarEstadisticas();
+        };
+
+        async function cargarEstadisticas() {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('http://localhost:8000/api/estadisticas', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('creditosAprobados').textContent = data.creditos || 45;
+                    document.getElementById('cursosCompletados').textContent = data.cursosCompletados || 12;
+                    document.getElementById('cursosDisponibles').textContent = data.cursosDisponibles || 8;
+                }
+            } catch (error) {
+                console.error('Error al cargar estadísticas:', error);
+            }
+        }
+
+        function navigate(page) {
+            window.location.href = `${page}.html`;
+        }
+
+        function planificar() {
+            alert('Funcionalidad de planificación en desarrollo');
+        }
+
+        function logout() {
+            if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+                // Limpiar datos de sesión
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                
+                // Mostrar mensaje y redirigir
+                alert('Sesión cerrada correctamente');
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Cursos - Asistente Académico</title>
+    <link rel="stylesheet" href="css/cursos.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="assets/images/uia_icon.png" alt="UIA Logo">
+        </div>
+        <div class="menu-items">
+            <div class="menu-item" onclick="navigate('dashboard')">
+                <span>📊</span>
+                <span>Dashboard</span>
+            </div>
+            <div class="menu-item" onclick="navigate('historial')">
+                <span>📚</span>
+                <span>Mi Historial</span>
+            </div>
+            <div class="menu-item" onclick="navigate('recomendaciones')">
+                <span>💡</span>
+                <span>Recomendaciones</span>
+            </div>
+            <div class="menu-item active">
+                <span>📖</span>
+                <span>Catálogo de Cursos</span>
+            </div>
+        </div>
+        <div class="logout-section">
+            <button class="logout-btn" onclick="logout()">
+                <span>🚪</span>
+                <span>Cerrar Sesión</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <a href="dashboard.html" class="back-btn">← Volver al Dashboard</a>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">📖 Catálogo de Cursos - Ingeniería Informática</h2>
+            
+            <div class="filters-row">
+                <div class="filter-group">
+                    <label>🔍 Buscar por nombre o código</label>
+                    <input type="text" id="searchInput" placeholder="Ej: Bases de Datos, SOF-04">
+                </div>
+                
+                <div class="filter-group">
+                    <label>📊 Nivel</label>
+                    <select id="nivelFilter">
+                        <option value="">Todos los niveles</option>
+                        <option value="inicial">Inicial</option>
+                        <option value="intermedio">Intermedio</option>
+                        <option value="avanzado">Avanzado</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label>🎯 Área Temática</label>
+                    <select id="areaFilter">
+                        <option value="">Todas las áreas</option>
+                        <option value="programacion">Programación</option>
+                        <option value="bases-datos">Bases de Datos</option>
+                        <option value="redes">Redes</option>
+                        <option value="software">Ingeniería de Software</option>
+                    </select>
+                </div>
+            </div>
+
+            <p class="search-info">Mostrando <strong id="resultCount">15</strong> cursos</p>
+
+            <div class="courses-grid" id="coursesGrid">
+                <!-- Los cursos se cargarán aquí dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detalles del Curso -->
+    <div id="modalDetalle" class="modal">
+        <div class="modal-content">
+            <div id="modalBody"></div>
+            <button class="modal-close" onclick="cerrarModal()">Cerrar</button>
+        </div>
+    </div>
+
+    <script src="js/cursos.js"></script>
+</body>
+</html>
