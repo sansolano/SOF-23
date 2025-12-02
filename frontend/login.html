@@ -73,7 +73,7 @@
             }
         };
 
-        // Manejo del formulario de login
+
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -82,14 +82,14 @@
             const alert = document.getElementById('alert');
             const btnLogin = document.getElementById('btnLogin');
 
-            // Deshabilitar botón mientras procesa
+
             btnLogin.disabled = true;
             btnLogin.textContent = 'Iniciando sesión...';
 
             try {
-                // MODO DEMO: Validación sin backend
+
                 if (email === 'estudiante@uia.ac.cr' && password === 'demo123') {
-                    // Simular datos de usuario
+  
                     const userData = {
                         nombre: 'Juan Pérez',
                         email: email,
@@ -97,7 +97,7 @@
                         id: 'EST001'
                     };
 
-                    // Guardar en localStorage
+
                     localStorage.setItem('token', 'demo_token_' + Date.now());
                     localStorage.setItem('user', JSON.stringify(userData));
                     

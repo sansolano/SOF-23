@@ -88,7 +88,6 @@
             </div>
         </div>
 
-        <!-- Main Actions Section -->
         <div class="main-section">
             <h2 class="section-title">¿Qué deseas hacer hoy?</h2>
             
@@ -121,9 +120,7 @@
     </div>
 
     <script>
-        // Verificar autenticación y cargar información del usuario
         window.onload = function() {
-            // Verificar si hay sesión activa
             const token = localStorage.getItem('token');
             if (!token) {
                 window.location.href = 'login.html';
@@ -136,7 +133,6 @@
                 document.getElementById('userAvatar').textContent = user.nombre.charAt(0).toUpperCase();
             }
 
-            // Cargar estadísticas desde el backend
             cargarEstadisticas();
         };
 
@@ -170,11 +166,9 @@
 
         function logout() {
             if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-                // Limpiar datos de sesión
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
                 
-                // Mostrar mensaje y redirigir
                 alert('Sesión cerrada correctamente');
                 window.location.href = 'login.html';
             }

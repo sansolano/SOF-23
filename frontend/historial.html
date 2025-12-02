@@ -42,7 +42,7 @@
             <a href="dashboard.html" class="back-btn">← Volver al Dashboard</a>
         </div>
 
-        <!-- Estadísticas -->
+
         <div class="stats-row">
             <div class="stat-card">
                 <div class="stat-value" id="totalCreditos">45</div>
@@ -62,7 +62,7 @@
             </div>
         </div>
 
-        <!-- Progreso de Carrera -->
+
         <div class="content-section">
             <h2 class="section-title">📈 Progreso de Carrera</h2>
             <p style="color: #666; margin-bottom: 10px;">Has completado el 37% de tu carrera</p>
@@ -71,7 +71,7 @@
             </div>
         </div>
 
-        <!-- Historial de Cursos -->
+
         <div class="content-section">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h2 class="section-title">📚 Historial de Cursos</h2>
@@ -84,7 +84,7 @@
                 <button class="tab" onclick="cambiarTab('pendientes')">Pendientes</button>
             </div>
 
-            <!-- Tab Cursos Aprobados -->
+
             <div id="aprobados" class="tab-content active">
                 <table class="course-table">
                     <thead>
@@ -130,7 +130,7 @@
                 </table>
             </div>
 
-            <!-- Tab Cursos En Curso -->
+
             <div id="en-curso" class="tab-content">
                 <table class="course-table">
                     <thead>
@@ -164,7 +164,7 @@
                 </table>
             </div>
 
-            <!-- Tab Cursos Pendientes -->
+
             <div id="pendientes" class="tab-content">
                 <table class="course-table">
                     <thead>
@@ -204,7 +204,7 @@
         </div>
     </div>
 
-    <!-- Modal Agregar Curso -->
+
     <div id="modalAgregar" class="modal">
         <div class="modal-content">
             <h2 class="modal-header">➕ Agregar Curso al Historial</h2>
@@ -241,7 +241,7 @@
     </div>
 
     <script>
-        // Verificar autenticación
+
         window.onload = function() {
             const token = localStorage.getItem('token');
             if (!token) {

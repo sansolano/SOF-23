@@ -42,7 +42,7 @@
             <a href="dashboard.html" class="back-btn">← Volver al Dashboard</a>
         </div>
 
-        <!-- Formulario de Selección -->
+
         <div class="content-section" id="formSection">
             <h2 class="section-title">Obtener Recomendaciones Personalizadas</h2>
             
@@ -50,7 +50,7 @@
                 <div class="form-group">
                     <label>Selecciona los cursos que ya has aprobado:</label>
                     <div class="checkbox-grid" id="cursosGrid">
-                        <!-- Los cursos se cargarán dinámicamente -->
+
                     </div>
                 </div>
 
@@ -60,14 +60,14 @@
             </form>
         </div>
 
-        <!-- Loading -->
+
         <div class="loading" id="loading">
             <div class="spinner"></div>
             <h3>Analizando tu historial académico...</h3>
             <p>El motor Prolog está evaluando requisitos y la IA está preparando tus recomendaciones</p>
         </div>
 
-        <!-- Resultados -->
+
         <div class="results-container" id="resultsContainer">
             <div class="content-section">
                 <h2 class="section-title">✨ Tus Recomendaciones Personalizadas</h2>
@@ -79,7 +79,7 @@
     </div>
 
     <script>
-        // Cursos de ejemplo - En producción vendrían del backend
+
         const cursosDisponibles = [
             { codigo: 'SOF-01', nombre: 'Introducción a la Programación', creditos: 3, nivel: 'inicial' },
             { codigo: 'SOF-02', nombre: 'Estructuras de Datos', creditos: 3, nivel: 'intermedio', requisitos: ['SOF-01'] },
@@ -92,7 +92,7 @@
         ];
 
         window.onload = function() {
-            // Verificar autenticación
+
             const token = localStorage.getItem('token');
             if (!token) {
                 window.location.href = 'login.html';
@@ -127,12 +127,12 @@
                 return;
             }
 
-            // Mostrar loading
+ 
             document.getElementById('formSection').style.display = 'none';
             document.getElementById('loading').style.display = 'block';
 
             try {
-                // Llamada al backend que integra Prolog + IA
+
                 const token = localStorage.getItem('token');
                 const response = await fetch('http://localhost:8000/api/recomendaciones', {
                     method: 'POST',
