@@ -108,7 +108,18 @@ cursos_disponibles(_, CursosAprobados, ListaCursos) :-
 	\+ member(Codigo, CursosAprobados)), ListaCursos).
 % --------------------------------------------------------------------
 
-
+% --------------------------------------------------------------------
+% REGLA 2.1: Obtener TODOS los cursos disponibles para un estudiante por nombre
+	% Ejemplo de cómo consultar: cursos_disponibles_nombre(['SOF-01', 'SOF-03'], Cursos).
+	
+	
+cursos_disponibles_nombre(AprobadosCodigos, NombresCursos) :-
+    findall(Nombre, 
+            (curso(Codigo, Nombre, _, Requisito, _, _),
+             \+ member(Codigo, AprobadosCodigos),
+             (Requisito = ninguno ; member(Requisito, AprobadosCodigos))),
+            NombresCursos).
+% --------------------------------------------------------------------
 % --------------------------------------------------------------------
 % REGLA 3: InformaciÃ³n completa de un curso
 	% Da el nombre, creditos, area, nivel.
