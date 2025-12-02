@@ -53,7 +53,7 @@ class IAGenerativaService:
                 
         except Exception as e:
             print(f"Error conectando con Ollama: {e}")
-            return self._explicacion_fallback(nombre, area, nivel)
+            return "Error al usar Ollama"
     
 
     
