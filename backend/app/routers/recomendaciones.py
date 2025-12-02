@@ -1,7 +1,4 @@
-"""
-Router: Recomendaciones
-Integra Prolog + IA Generativa para recomendaciones personalizadas
-"""
+
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
@@ -11,7 +8,6 @@ from app.services.ia_service import ia_service
 
 router = APIRouter()
 
-# Modelos
 class CursosAprobadosRequest(BaseModel):
     cursosAprobados: List[str]
 
@@ -32,35 +28,27 @@ class Estadisticas(BaseModel):
 
 @router.post("/", response_model=List[RecomendacionCurso])
 async def obtener_recomendaciones(request: CursosAprobadosRequest):
-    """
-    Obtener recomendaciones de cursos personalizadas
-    Integra:
-    1. Motor Prolog: Valida requisitos y obtiene cursos disponibles
-    2. IA Generativa: Genera explicaciones en lenguaje natural
-    """
+
     try:
         cursos_aprobados = request.cursosAprobados
         
-        # 1. Consultar a Prolog los cursos disponibles
         codigos_disponibles = prolog_service.cursos_disponibles(cursos_aprobados)
         
         if not codigos_disponibles:
             return []
         
-        # 2. Obtener información detallada y generar recomendaciones
         recomendaciones = []
         
         for codigo in codigos_disponibles:
-            # Información del curso desde Prolog
+         
             info = prolog_service.info_curso(codigo)
             
             if not info:
                 continue
             
-            # Obtener requisito
             requisito = prolog_service.requisito_de(codigo)
             
-            # Análisis lógico de Prolog
+          
             analisis_prolog = ia_service.generar_analisis_prolog(
                 codigo=codigo,
                 nombre=info['nombre'],
@@ -68,7 +56,6 @@ async def obtener_recomendaciones(request: CursosAprobadosRequest):
                 cursos_aprobados=cursos_aprobados
             )
             
-            # Explicación generada por IA
             explicacion_ia = ia_service.generar_explicacion_curso(
                 codigo=codigo,
                 nombre=info['nombre'],
@@ -77,7 +64,6 @@ async def obtener_recomendaciones(request: CursosAprobadosRequest):
                 requisitos_cumplidos=True
             )
             
-            # Crear recomendación completa
             recomendacion = RecomendacionCurso(
                 codigo=codigo,
                 nombre=info['nombre'],
@@ -90,7 +76,6 @@ async def obtener_recomendaciones(request: CursosAprobadosRequest):
             
             recomendaciones.append(recomendacion)
         
-        # Limitar a las primeras 10 recomendaciones para no saturar
         return recomendaciones[:10]
         
     except Exception as e:
@@ -105,17 +90,15 @@ async def obtener_estadisticas(request: CursosAprobadosRequest):
     try:
         cursos_aprobados = request.cursosAprobados
         
-        # Calcular créditos aprobados
+       
         creditos_totales = 0
         for codigo in cursos_aprobados:
             info = prolog_service.info_curso(codigo)
             if info:
                 creditos_totales += info['creditos']
-        
-        # Cursos disponibles
+       
         cursos_disponibles = prolog_service.cursos_disponibles(cursos_aprobados)
         
-        # Porcentaje de progreso
         porcentaje = prolog_service.porcentaje_progreso(cursos_aprobados)
         
         return Estadisticas(
@@ -136,24 +119,23 @@ async def generar_plan_academico(request: CursosAprobadosRequest):
     try:
         cursos_aprobados = request.cursosAprobados
         
-        # Obtener cursos disponibles
+        
         codigos_disponibles = prolog_service.cursos_disponibles(cursos_aprobados)
         
-        # Obtener detalles de cursos disponibles
+        
         cursos_detalle = []
         for codigo in codigos_disponibles:
             info = prolog_service.info_curso(codigo)
             if info:
                 cursos_detalle.append(info)
-        
-        # Generar plan con IA
+    
         plan = ia_service.generar_plan_academico(cursos_detalle, cursos_aprobados)
         
         return {
             "cursosAprobados": len(cursos_aprobados),
             "cursosDisponibles": len(cursos_detalle),
             "planSugerido": plan,
-            "cursosRecomendados": cursos_detalle[:4]  # Top 4 recomendados
+            "cursosRecomendados": cursos_detalle[:4] 
         }
         
     except Exception as e:
@@ -161,9 +143,7 @@ async def generar_plan_academico(request: CursosAprobadosRequest):
 
 @router.get("/validar/{codigo}")
 async def validar_curso_disponible(codigo: str, cursos_aprobados: List[str] = []):
-    """
-    Validar si un curso específico está disponible para el estudiante
-    """
+
     try:
         puede_matricular = prolog_service.puede_matricular(codigo, cursos_aprobados)
         
