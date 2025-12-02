@@ -1,7 +1,3 @@
-"""
-Router: Prolog Direct Access
-Acceso directo a consultas del motor Prolog
-"""
 
 from fastapi import APIRouter, HTTPException, Query
 from typing import List
@@ -9,19 +5,6 @@ from app.services.prolog_service import prolog_service
 
 router = APIRouter()
 
-@router.get("/test")
-async def test_prolog():
-    """Verificar que el motor Prolog está funcionando"""
-    try:
-        total = prolog_service.total_cursos()
-        return {
-            "status": "OK",
-            "motor": "Prolog",
-            "total_cursos": total,
-            "message": "Motor Prolog funcionando correctamente"
-        }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error en Prolog: {str(e)}")
 
 @router.get("/puede-matricular/{codigo}")
 async def verificar_puede_matricular(
@@ -46,7 +29,6 @@ async def verificar_puede_matricular(
 async def obtener_cursos_disponibles(
     cursos_aprobados: List[str] = Query(default=[])
 ):
-    """Obtener todos los cursos disponibles dado un historial"""
     try:
         disponibles = prolog_service.cursos_disponibles(cursos_aprobados)
         
@@ -69,7 +51,6 @@ async def obtener_cursos_disponibles(
 async def calcular_progreso(
     cursos_aprobados: List[str] = Query(default=[])
 ):
-    """Calcular el progreso en la carrera"""
     try:
         porcentaje = prolog_service.porcentaje_progreso(cursos_aprobados)
         total_cursos = prolog_service.total_cursos()
