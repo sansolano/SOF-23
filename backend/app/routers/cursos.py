@@ -1,7 +1,3 @@
-"""
-Router: Cursos
-Maneja información y consultas sobre cursos
-"""
 
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
@@ -10,7 +6,6 @@ from app.services.prolog_service import prolog_service
 
 router = APIRouter()
 
-# Modelos
 class CursoDetalle(BaseModel):
     codigo: str
     nombre: str
@@ -25,7 +20,6 @@ class CursoPorArea(BaseModel):
 
 @router.get("/", response_model=List[CursoDetalle])
 async def obtener_todos_cursos():
-    """Obtener todos los cursos disponibles en la carrera"""
     try:
         cursos = prolog_service.todos_los_cursos()
         return cursos
@@ -34,7 +28,6 @@ async def obtener_todos_cursos():
 
 @router.get("/{codigo}", response_model=CursoDetalle)
 async def obtener_curso(codigo: str):
-    """Obtener información detallada de un curso específico"""
     try:
         curso = prolog_service.info_curso(codigo)
         
@@ -56,11 +49,7 @@ async def obtener_curso(codigo: str):
 
 @router.get("/area/{area}", response_model=List[CursoPorArea])
 async def obtener_cursos_por_area(area: str):
-    """
-    Obtener cursos de un área específica
-    Áreas disponibles: programacion, bases_datos, redes, ingenieria_software, 
-                       matematicas, seguridad, sistemas_operativos, hardware, general, idiomas
-    """
+  
     try:
         cursos = prolog_service.cursos_por_area(area)
         return cursos
@@ -69,10 +58,7 @@ async def obtener_cursos_por_area(area: str):
 
 @router.get("/nivel/{nivel}", response_model=List[CursoPorArea])
 async def obtener_cursos_por_nivel(nivel: str):
-    """
-    Obtener cursos de un nivel específico
-    Niveles disponibles: inicial, intermedio, avanzado
-    """
+    
     try:
         cursos = prolog_service.cursos_por_nivel(nivel)
         return cursos
@@ -81,7 +67,7 @@ async def obtener_cursos_por_nivel(nivel: str):
 
 @router.get("/{codigo}/siguientes")
 async def obtener_cursos_siguientes(codigo: str):
-    """Obtener cursos que tienen como requisito el curso especificado"""
+    
     try:
         siguientes = prolog_service.siguiente_curso(codigo)
         return {"codigo": codigo, "siguientes": siguientes}
@@ -90,7 +76,7 @@ async def obtener_cursos_siguientes(codigo: str):
 
 @router.get("/cuatrimestre/{numero}")
 async def obtener_cursos_cuatrimestre(numero: int = Query(..., ge=1, le=12)):
-    """Obtener cursos de un cuatrimestre específico (1-12)"""
+    
     try:
         cursos = prolog_service.cursos_cuatrimestre(numero)
         
@@ -110,7 +96,6 @@ async def obtener_cursos_cuatrimestre(numero: int = Query(..., ge=1, le=12)):
 
 @router.get("/stats/totales")
 async def obtener_estadisticas_carrera():
-    """Obtener estadísticas generales de la carrera"""
     try:
         total_creditos = prolog_service.total_creditos_carrera()
         total_cursos = prolog_service.total_cursos()

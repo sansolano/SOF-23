@@ -28,9 +28,7 @@ class PrologService:
             return False
     
     def cursos_disponibles(self, cursos_aprobados: List[str]) -> List[str]:
-        """
-        Obtener TODOS los cursos disponibles para un estudiante
-        """
+
         try:
             cursos_str = str(cursos_aprobados).replace("'", "'")
             
@@ -45,9 +43,7 @@ class PrologService:
             return []
     
     def info_curso(self, codigo_curso: str) -> Optional[Dict[str, Any]]:
-        """
-        Obtener información completa de un curso
-        """
+
         try:
             query = f"info_curso('{codigo_curso}', Nombre, Creditos, Area, Nivel)"
             results = list(self.prolog.query(query))
@@ -67,9 +63,7 @@ class PrologService:
             return None
     
     def requisito_de(self, codigo_curso: str) -> Optional[str]:
-        """
-        Obtener el requisito previo de un curso
-        """
+
         try:
             query = f"requisito_de('{codigo_curso}', Requisito)"
             results = list(self.prolog.query(query))
@@ -83,9 +77,7 @@ class PrologService:
             return None
     
     def cursos_por_area(self, area: str) -> List[Dict[str, str]]:
-        """
-        Obtener todos los cursos de un área específica
-        """
+
         try:
             query = f"cursos_por_area({area}, ListaCursos)"
             results = list(self.prolog.query(query))
@@ -102,9 +94,7 @@ class PrologService:
             return []
     
     def cursos_por_nivel(self, nivel: str) -> List[Dict[str, str]]:
-        """
-        Obtener todos los cursos de un nivel específico
-        """
+
         try:
             query = f"cursos_por_nivel({nivel}, ListaCursos)"
             results = list(self.prolog.query(query))
@@ -121,9 +111,7 @@ class PrologService:
             return []
     
     def siguiente_curso(self, codigo_curso_actual: str) -> List[Dict[str, str]]:
-        """
-        Obtener cursos que tienen como requisito el curso actual
-        """
+
         try:
             query = f"siguiente_curso('{codigo_curso_actual}', Codigo, Nombre)"
             results = list(self.prolog.query(query))
@@ -137,9 +125,7 @@ class PrologService:
             return []
     
     def total_creditos_carrera(self) -> int:
-        """
-        Obtener el total de créditos de la carrera
-        """
+
         try:
             query = "total_creditos_carrera(Total)"
             results = list(self.prolog.query(query))
@@ -152,9 +138,7 @@ class PrologService:
             return 0
     
     def total_cursos(self) -> int:
-        """
-        Obtener el total de cursos en la carrera
-        """
+  
         try:
             query = "total_cursos(Total)"
             results = list(self.prolog.query(query))
@@ -167,9 +151,7 @@ class PrologService:
             return 0
     
     def porcentaje_progreso(self, cursos_aprobados: List[str]) -> float:
-        """
-        Calcular el porcentaje de progreso en la carrera
-        """
+
         try:
             cursos_str = str(cursos_aprobados).replace("'", "'")
             
@@ -184,9 +166,7 @@ class PrologService:
             return 0.0
     
     def cursos_cuatrimestre(self, num_cuatrimestre: int) -> List[str]:
-        """
-        Obtener cursos de un cuatrimestre específico
-        """
+
         try:
             query = f"cursos_cuatrimestre({num_cuatrimestre}, ListaCursos)"
             results = list(self.prolog.query(query))
@@ -199,9 +179,7 @@ class PrologService:
             return []
     
     def todos_los_cursos(self) -> List[Dict[str, Any]]:
-        """
-        Obtener todos los cursos del sistema
-        """
+    
         try:
             query = "curso(Codigo, Nombre, Creditos, Requisito, Area, Nivel)"
             results = list(self.prolog.query(query))
