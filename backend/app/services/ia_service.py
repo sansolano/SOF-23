@@ -1,116 +1,77 @@
+import ollama
+from typing import Dict
 
-import requests
-from typing import List, Dict, Any
-import json
-
-class IAGenerativaService:
-    def __init__(self, base_url: str = "http://localhost:11434"):
-        
-        self.base_url = base_url
-        self.model = "llama2"  # Modelo por defecto (gratuito)
-        
-    def generar_explicacion_curso(self, 
-                                  codigo: str, 
-                                  nombre: str, 
-                                  nivel: str,
-                                  area: str,
-                                  requisitos_cumplidos: bool = True) -> str:
-
-        
-        prompt = f"""
-        Eres un asesor académico experto. Genera una explicación breve (máximo 3 oraciones) 
-        sobre por qué un estudiante debería tomar el curso "{nombre}" ({codigo}).
-        
-        Información del curso:
-        - Nivel: {nivel}
-        - Área: {area}
-        - Requisitos cumplidos: {'Sí' if requisitos_cumplidos else 'No'}
-        
-        La explicación debe:
-        1. Mencionar las habilidades que desarrollará
-        2. Indicar su importancia en la carrera
-        3. Ser motivadora y clara
-        
-        Responde SOLO con la explicación, sin introducción ni conclusión.
+class IAService:
+    """
+    Servicio para generar explicaciones usando IA generativa (Ollama)
+    """
+    
+    def __init__(self, model: str = "llama3.2:1b"):
+        self.model = model
+    
+    def generar_explicacion(self, curso_info: Dict[str, any]) -> str:
         """
+        Genera una explicación personalizada para un curso recomendado
+        """
+        codigo = curso_info.get('codigo', '')
+        nombre = curso_info.get('nombre', '')
+        area = curso_info.get('area', '')
+        nivel = curso_info.get('nivel', '')
+        creditos = curso_info.get('creditos', 0)
         
+        # Crear prompt para la IA
+        prompt = f"""Eres un asesor académico universitario experto. Genera una explicación breve y motivadora (máximo 3 oraciones) sobre el siguiente curso recomendado:
+
+Curso: {codigo} - {nombre}
+Área: {area}
+Nivel: {nivel}
+Créditos: {creditos}
+
+La explicación debe:
+1. Explicar por qué este curso es importante para la carrera
+2. Mencionar habilidades o conocimientos que desarrollará
+3. Ser clara, concisa y motivadora
+
+Responde SOLO con la explicación, sin saludos ni introducciones."""
+
         try:
-            response = requests.post(
-                f"{self.base_url}/api/generate",
-                json={
-                    "model": self.model,
-                    "prompt": prompt,
-                    "stream": False
-                },
-                timeout=30
+            # Llamar a Ollama
+            response = ollama.chat(
+                model=self.model,
+                messages=[
+                    {
+                        'role': 'user',
+                        'content': prompt
+                    }
+                ]
             )
             
-            if response.status_code == 200:
-                result = response.json()
-                return result.get('response', '').strip()
-            else:
-                return self._explicacion_fallback(nombre, area, nivel)
-                
+            explicacion = response['message']['content'].strip()
+            return explicacion
+        
         except Exception as e:
-            print(f"Error conectando con Ollama: {e}")
-            return "Error al usar Ollama"
+            print(f"Error llamando a Ollama: {e}")
+            # Fallback: explicación genérica
+            return self._generar_explicacion_fallback(curso_info)
     
-
-    
-    def generar_analisis_prolog(self, 
-                                codigo: str,
-                                nombre: str,
-                                requisito: str = None,
-                                cursos_aprobados: List[str] = None) -> List[str]:
-        analisis = []
-        
-        if requisito:
-            if cursos_aprobados and requisito in cursos_aprobados:
-                analisis.append(f"Requisito {requisito} cumplido correctamente")
-            else:
-                analisis.append(f"Requiere haber aprobado {requisito}")
-        else:
-            analisis.append("Sin requisitos previos - puedes matricular libremente")
-        
-        analisis.append(f"Curso {codigo}: {nombre}")
-        analisis.append("Validado por el motor de inferencia Prolog")
-        
-        return analisis
-    
-    def generar_plan_academico(self, 
-                               cursos_disponibles: List[Dict],
-                               cursos_aprobados: List[str]) -> str:
-        
-        prompt = f"""
-        Eres un asesor académico. El estudiante ha aprobado {len(cursos_aprobados)} cursos 
-        y tiene {len(cursos_disponibles)} cursos disponibles para matricular.
-        
-        Genera un consejo breve (2-3 oraciones) sobre cómo debería planificar su próximo cuatrimestre,
-        considerando balance de dificultad, áreas de estudio y progreso en la carrera.
-        
-        Cursos disponibles: {len(cursos_disponibles)}
-        Cursos aprobados: {len(cursos_aprobados)}
+    def _generar_explicacion_fallback(self, curso_info: Dict[str, any]) -> str:
         """
+        Genera una explicación básica sin IA
+        """
+        nombre = curso_info.get('nombre', '')
+        area = curso_info.get('area', '')
+        nivel = curso_info.get('nivel', '')
         
-        try:
-            response = requests.post(
-                f"{self.base_url}/api/generate",
-                json={
-                    "model": self.model,
-                    "prompt": prompt,
-                    "stream": False
-                },
-                timeout=30
-            )
-            
-            if response.status_code == 200:
-                result = response.json()
-                return result.get('response', '').strip()
-            else:
-                return "Erro al usar IA Ollama"
-                
-        except Exception as e:
-            print(f"Error generando plan académico: {e}")
-            return "Erorro al usar IA Ollama"
-    
-ia_service = IAGenerativaService()
+        explicaciones_area = {
+            'programacion': f"Este curso de {nivel} te permitirá dominar técnicas avanzadas de programación esenciales para tu desarrollo como ingeniero. Aprenderás conceptos y prácticas que utilizarás durante toda tu carrera profesional.",
+            'bases_datos': f"Este curso de {nivel} te enseñará a diseñar y gestionar bases de datos eficientes, una habilidad fundamental en el desarrollo de aplicaciones modernas. Dominar estos conceptos te abrirá puertas en múltiples áreas de la informática.",
+            'ingenieria_software': f"Este curso de {nivel} te preparará para trabajar en proyectos de software reales, aplicando metodologías y mejores prácticas de la industria. Es fundamental para tu formación como ingeniero de software profesional.",
+            'redes': f"Este curso de {nivel} te dará las bases para entender cómo funcionan las comunicaciones en Internet y las redes modernas. Conocimientos esenciales en la era digital actual.",
+            'matematicas': f"Este curso de {nivel} te proporcionará las herramientas matemáticas necesarias para resolver problemas complejos en computación. Es fundamental para cursos más avanzados.",
+            'general': f"Este curso de {nivel} complementará tu formación integral como profesional, desarrollando habilidades importantes más allá de lo técnico."
+        }
+        
+        return explicaciones_area.get(area, f"Este curso de {nombre} es importante para tu desarrollo profesional y te permitirá adquirir competencias valiosas en {area}.")
+
+# Instancia global del servicio
+ia_service = IAService()
