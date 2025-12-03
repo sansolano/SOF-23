@@ -1,7 +1,16 @@
 from fastapi import FastAPI
 from pymongo import MongoClient
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Puedes restringir a ["http://127.0.0.1:5500"] si quieres más seguridad
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Conexión a MongoDB
 client = MongoClient("mongodb://localhost:27017/")

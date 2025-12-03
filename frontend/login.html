@@ -27,7 +27,7 @@
 
             <div class="demo-info">
                 <h4>🔑 Modo Demo - Credenciales de Prueba:</h4>
-                <p><strong>Email:</strong> estudiante@uia.ac.cr</p>
+                <p><strong>User:</strong> estudiante@uia.ac.cr</p>
                 <p><strong>Contraseña:</strong> demo123</p>
             </div>
 
@@ -35,8 +35,8 @@
 
             <form id="loginForm">
                 <div class="form-group">
-                    <label for="email">Correo Electrónico</label>
-                    <input type="email" id="email" name="email" required placeholder="estudiante@uia.ac.cr">
+                    <label for="email">User</label>
+                    <input type="text" id="email" name="email" required placeholder="estudiante@uia.ac.cr">
                 </div>
 
                 <div class="form-group">
@@ -53,107 +53,6 @@
         </div>
     </div>
 
-    <script>
-        // Verificar si ya hay sesión activa y ofrecer cerrar sesión
-        window.onload = function() {
-            const token = localStorage.getItem('token');
-            const user = JSON.parse(localStorage.getItem('user') || '{}');
-            
-            if (token) {
-                const userName = user.nombre || 'Usuario';
-                if (confirm(`Ya tienes una sesión activa como ${userName}.\n¿Deseas continuar con esta sesión o cerrarla para iniciar con otra cuenta?`)) {
-                    // Ir al dashboard
-                    window.location.href = 'dashboard.html';
-                } else {
-                    // Cerrar sesión actual
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
-                    alert('Sesión cerrada. Ahora puedes iniciar sesión con otra cuenta.');
-                }
-            }
-        };
-
-
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const alert = document.getElementById('alert');
-            const btnLogin = document.getElementById('btnLogin');
-
-
-            btnLogin.disabled = true;
-            btnLogin.textContent = 'Iniciando sesión...';
-
-            try {
-
-                if (email === 'estudiante@uia.ac.cr' && password === 'demo123') {
-  
-                    const userData = {
-                        nombre: 'Juan Pérez',
-                        email: email,
-                        carrera: 'Ingeniería Informática',
-                        id: 'EST001'
-                    };
-
-
-                    localStorage.setItem('token', 'demo_token_' + Date.now());
-                    localStorage.setItem('user', JSON.stringify(userData));
-                    
-                    alert.className = 'alert alert-success';
-                    alert.textContent = '¡Login exitoso! Redirigiendo al dashboard...';
-                    alert.style.display = 'block';
-                    
-                    setTimeout(() => {
-                        window.location.href = 'dashboard.html';
-                    }, 1500);
-                } else {
-                    // Si el backend está disponible, usar esta versión:
-                    /*
-                    const response = await fetch('http://localhost:8000/api/auth/login', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ email, password })
-                    });
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        localStorage.setItem('token', data.token);
-                        localStorage.setItem('user', JSON.stringify(data.user));
-                        
-                        alert.className = 'alert alert-success';
-                        alert.textContent = '¡Login exitoso! Redirigiendo...';
-                        alert.style.display = 'block';
-                        
-                        setTimeout(() => {
-                            window.location.href = 'dashboard.html';
-                        }, 1500);
-                    } else {
-                        throw new Error('Credenciales inválidas');
-                    }
-                    */
-                    
-                    // Para el demo, mostrar error si las credenciales no coinciden
-                    throw new Error('Credenciales inválidas.');
-                }
-            } catch (error) {
-                alert.className = 'alert alert-error';
-                alert.textContent = error.message;
-                alert.style.display = 'block';
-                
-                btnLogin.disabled = false;
-                btnLogin.textContent = 'Ingresar';
-            }
-        });
-
-        // Link de registro
-        document.getElementById('registerLink').addEventListener('click', (e) => {
-            e.preventDefault();
-            alert('La funcionalidad de registro no esta disponible.\n\nPor ahora usa las credenciales demo:\nEmail: estudiante@uia.ac.cr\nPassword: demo123');
-        });
-    </script>
+    <script src="js/login.js"></script>
 </body>
 </html>

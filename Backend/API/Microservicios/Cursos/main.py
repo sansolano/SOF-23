@@ -3,9 +3,23 @@ from pydantic import BaseModel
 from typing import List
 from pymongo import MongoClient
 from bson import ObjectId
+from fastapi.middleware.cors import CORSMiddleware
+from pyswip import Prolog
 
 app = FastAPI()
-
+prolog = Prolog()
+prolog.consult("../ConsultasProlog/cursos.pl")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+class CursosInput(BaseModel):
+    username: str
+    cursos_aprobados: List[str]
+    
 client = MongoClient("mongodb://localhost:27017/")
 db = client["Proyecto"]
 users_collection = db["Cursos"]
@@ -53,3 +67,4 @@ def get_courses(username: str):
         "userName": user["userName"],
         "cursos": user.get("cursos", [])
     }
+    

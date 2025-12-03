@@ -119,60 +119,6 @@
         </div>
     </div>
 
-    <script>
-        window.onload = function() {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                window.location.href = 'login.html';
-                return;
-            }
-
-            const user = JSON.parse(localStorage.getItem('user') || '{}');
-            if (user.nombre) {
-                document.getElementById('userName').textContent = user.nombre;
-                document.getElementById('userAvatar').textContent = user.nombre.charAt(0).toUpperCase();
-            }
-
-            cargarEstadisticas();
-        };
-
-        async function cargarEstadisticas() {
-            try {
-                const token = localStorage.getItem('token');
-                const response = await fetch('http://localhost:8000/api/estadisticas', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    document.getElementById('creditosAprobados').textContent = data.creditos || 45;
-                    document.getElementById('cursosCompletados').textContent = data.cursosCompletados || 12;
-                    document.getElementById('cursosDisponibles').textContent = data.cursosDisponibles || 8;
-                }
-            } catch (error) {
-                console.error('Error al cargar estadísticas:', error);
-            }
-        }
-
-        function navigate(page) {
-            window.location.href = `${page}.html`;
-        }
-
-        function planificar() {
-            alert('Funcionalidad de planificación en desarrollo');
-        }
-
-        function logout() {
-            if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-                localStorage.removeItem('token');
-                localStorage.removeItem('user');
-                
-                alert('Sesión cerrada correctamente');
-                window.location.href = 'login.html';
-            }
-        }
-    </script>
+    <script src="js/cursos.js"></script>
 </body>
 </html>
