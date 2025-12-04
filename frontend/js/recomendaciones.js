@@ -18,52 +18,79 @@ document.addEventListener("DOMContentLoaded", () => {
         resultsContainer.style.display = "none";
 
         try {
-            // Recuperar usuario actual desde localStorage (guardado en login)
-            const user = JSON.parse(localStorage.getItem("user") || "{}");
-            const username = user.userName || user.email || "estudiante";
+            const user = localStorage.getItem('user') || '';
+            const username = user || "estudiante";
 
-            // Ejemplo: cursos aprobados guardados en localStorage o puedes pedirlos al backend
-            const cursosAprobados = user.cursos_aprobados || ["MatematicasI", "ProgramacionBasica"];
+            const response = await fetch(`http://localhost:8000/user/course/${username}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
 
-            // Body para el API
+            if (!response.ok) {
+                throw new Error('Error al obtener cursos');
+            }
+
+            const data = await response.json();
+            const cursos = data.cursos || [];
+            const cursosAprobados = cursos;
+
             const body = {
                 username: username,
                 cursos_aprobados: cursosAprobados
             };
-
-            const response = await fetch("http://localhost:2000/cursos/recomendados", {
-                method: "POST",
+            
+            const responseDisponible = await fetch(`http://localhost:4000/cursos/recomendadosNombre`, {
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json"
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(body)
             });
 
-            if (!response.ok) {
-                throw new Error("Error al consultar la API");
+            if (!responseDisponible.ok) {
+                throw new Error('Error al obtener cursos');
             }
 
-            const data = await response.json();
+            const dataDisponible = await responseDisponible.json();
+
+            const cursosDisponibles = dataDisponible.cursos_disponibles || [];
+
+
+
+            const bodyIA = {
+                username: username,
+                cursos_aprobados: cursosDisponibles
+            };
+            
+            const responseIA = await fetch(`http://localhost:4000/cursos/recomendados`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bodyIA)
+            });
+
+            if (!responseIA.ok) {
+                throw new Error('Error al obtener cursos');
+            }
+
+            const dataIA = await responseIA.json();
+
+            const recomendacion = dataIA.recomendacion || "No hay recomendaciones disponibles.";
 
             // Mostrar resultados
             recommendationsList.innerHTML = "";
 
-            if (data.cursos_disponibles && data.cursos_disponibles.length > 0) {
+            if (recomendacion !== "No hay recomendaciones disponibles.") {
                 const cursosHTML = `
                     <h3>Cursos disponibles:</h3>
                     <ul>
-                        ${data.cursos_disponibles.map(c => `<li>${c}</li>`).join("")}
-                    </ul>
+                            ${recomendacion}
+                        </ul>
                 `;
                 recommendationsList.innerHTML += cursosHTML;
-            }
-
-            if (data.recomendacion) {
-                const recHTML = `
-                    <h3>Recomendación del Asistente:</h3>
-                    <p>${data.recomendacion}</p>
-                `;
-                recommendationsList.innerHTML += recHTML;
             }
 
             // Mostrar resultados y ocultar loading

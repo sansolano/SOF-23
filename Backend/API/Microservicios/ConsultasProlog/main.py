@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from typing import List
 from pyswip import Prolog
 from ollama import Client
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 client = Client()
@@ -11,18 +12,24 @@ client = Client()
 prolog = Prolog()
 prolog.consult("cursos.pl")
 
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Puedes restringir a ["http://127.0.0.1:5500"] si quieres más seguridad
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 class CursosInput(BaseModel):
     username: str
     cursos_aprobados: List[str]
 
 @app.post("/cursos/recomendados")
 def cursos_recomendados(data: CursosInput):
-
-    # Convertir lista de cursos aprobados a formato Prolog
-    aprobados_str = "[" + ",".join(data.cursos_aprobados) + "]"
-    query = f"cursos_disponibles_nombre({aprobados_str}, NombresCursos)"
+    aprobados_str = "[" + ",".join([f"'{c}'" for c in data.cursos_aprobados]) + "]"
+    query = f"cursos_disponibles_nombre_por_nombre({aprobados_str}, NombresCursos)"
     resultado = list(prolog.query(query))
-
     cursos_disponibles = []
     if resultado:
         cursos_disponibles = [str(c) for c in resultado[0]["NombresCursos"]]
@@ -38,11 +45,26 @@ def cursos_recomendados(data: CursosInput):
     messages=[{"role": "user", "content": prompt}]
 )
 
-    # ✅ forma segura de obtener el texto
     recomendacion = response["message"]["content"] if "message" in response else response.get("content", "")
 
     return {
         "status": "success",
         "cursos_disponibles": cursos_disponibles,
         "recomendacion": recomendacion
+    }
+    
+@app.post("/cursos/recomendadosNombre")
+def cursos_recomendados(data: CursosInput):
+
+    cursos_aprobados = [c.strip() for c in data.cursos_aprobados if c.strip()]
+    aprobados_str = "[" + ",".join([f"'{c}'" for c in cursos_aprobados]) + "]"
+    query = f"cursos_disponibles_nombre_por_nombre({aprobados_str}, NombresCursos)"
+    resultado = list(prolog.query(query))
+
+    cursos_disponibles = []
+    if resultado:
+        cursos_disponibles = [str(c) for c in resultado[0]["NombresCursos"]]
+    return {
+        "status": "success",
+        "cursos_disponibles": cursos_disponibles
     }

@@ -58,12 +58,29 @@ async function cargarDatosDashboard() {
 
         const data = await response.json();
 
+        const responseDisponible= await fetch(`http://localhost:4000/cursos/recomendadosNombre`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username,
+                cursos_aprobados: data.cursos || []
+            })
+        });
+
+        if (!responseDisponible.ok) {
+            throw new Error('Error al obtener cursos');
+        }
+
+        const dataDisponible = await responseDisponible.json();
+
         const cursos = data.cursos || [];
         const cursosAprobados = cursos;
-        const cursosDisponibles = cursos.filter(curso => curso.toLowerCase().includes("disponible"));
+        const cursosDisponibles = dataDisponible.cursos_disponibles || [];
         cursosCompletadosEl.textContent = cursosAprobados.length;
         cursosDisponiblesEl.textContent = cursosDisponibles.length;
-        const creditosAprobados = cursosAprobados.length * 3;
+        const creditosAprobados = cursosAprobados.length * 4;
         creditosAprobadosEl.textContent = creditosAprobados;
 
     } catch (error) {
