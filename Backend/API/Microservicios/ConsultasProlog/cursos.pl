@@ -1,64 +1,64 @@
 % --------------------------------------------------------------------
 						        % Hechos
 
-% ESTRUCTURA: curso(Codigo, Nombre, Creditos, Requisito, Area, Nivel)
+% ESTRUCTURA: curso(Codigo, Nombre, Creditos, Requisito, Area, Nivel).
 % --------------------------------------------------------------------
 
 % --------------------------------------------------------------------
 					        % CUATRIMESTRE I 
 % --------------------------------------------------------------------
 curso('SOF-01', 'Estructuras discretas', 4, ninguno, matematicas, inicial).
-curso('SOF-02', 'Inglés para las tecnologías I', 4, ninguno, idiomas, inicial).
-curso('SOF-03', 'Introducción a la computación', 4, ninguno, general, inicial).
-curso('SOF-04', 'Técnicas de comunicación', 4, ninguno, general, inicial).
+curso('SOF-02', 'Ingles para las tecnologias I', 4, ninguno, idiomas, inicial).
+curso('SOF-03', 'Introduccion a la computacion', 4, ninguno, general, inicial).
+curso('SOF-04', 'Tecnicas de comunicacion', 4, ninguno, general, inicial).
 
 % --------------------------------------------------------------------
 							% CUATRIMESTRE II
 % --------------------------------------------------------------------
-curso('SOF-05', 'Cálculo I', 4, 'SOF-01', matematicas, intermedio).
-curso('SOF-06', 'Inglés para las tecnologías II', 4, 'SOF-02', idiomas, intermedio).
-curso('SOF-07', 'Investigación aplicada a las tecnologías', 4, 'SOF-04', general, intermedio).
-curso('SOF-08', 'Programación I', 4, 'SOF-03', programacion, intermedio).
+curso('SOF-05', 'Calculo I', 4, 'SOF-01', matematicas, intermedio).
+curso('SOF-06', 'Ingles para las tecnologias II', 4, 'SOF-02', idiomas, intermedio).
+curso('SOF-07', 'Investigacion aplicada a las tecnologias', 4, 'SOF-04', general, intermedio).
+curso('SOF-08', 'Programacion I', 4, 'SOF-03', programacion, intermedio).
 
 % --------------------------------------------------------------------
 							% CUATRIMESTRE III
 % --------------------------------------------------------------------
-curso('SOF-09', 'Cálculo II', 4, 'SOF-05', matematicas, intermedio).
+curso('SOF-09', 'Calculo II', 4, 'SOF-05', matematicas, intermedio).
 curso('SOF-10', 'Estructuras de datos y algoritmos', 4, 'SOF-08', programacion, intermedio).
-curso('SOF-11', 'Probabilidad y estadística', 4, 'SOF-05', matematicas, intermedio).
-curso('SOF-12', 'Programación II', 4, 'SOF-08', programacion, intermedio).
+curso('SOF-11', 'Probabilidad y estadistica', 4, 'SOF-05', matematicas, intermedio).
+curso('SOF-12', 'Programacion II', 4, 'SOF-08', programacion, intermedio).
 
 % --------------------------------------------------------------------
 							% CUATRIMESTRE IV 
 % --------------------------------------------------------------------
-curso('SOF-13', 'Arquitectura y organización de computadores', 4, 'SOF-12', hardware, intermedio).
+curso('SOF-13', 'Arquitectura y organizacion de computadores', 4, 'SOF-12', hardware, intermedio).
 curso('SOF-14', 'Bases de datos I', 4, 'SOF-12', bases_datos, intermedio).
-curso('SOF-15', 'Verificación y validación de software', 4, 'SOF-08', ingenieria_software, intermedio).
-curso('SOF-16', 'Programación III', 4, 'SOF-12', programacion, intermedio).
+curso('SOF-15', 'Verificacion y validacion de software', 4, 'SOF-08', ingenieria_software, intermedio).
+curso('SOF-16', 'Programacion III', 4, 'SOF-12', programacion, intermedio).
 
 % --------------------------------------------------------------------
 							% CUATRIMESTRE V
 % --------------------------------------------------------------------
 curso('SOF-17', 'Bases de datos II', 4, 'SOF-14', bases_datos, avanzado).
-curso('SOF-18', 'Programación IV', 4, 'SOF-16', programacion, avanzado).
-curso('SOF-19', 'Análisis y especificación de software', 4, 'SOF-14', ingenieria_software, avanzado).
+curso('SOF-18', 'Programacion IV', 4, 'SOF-16', programacion, avanzado).
+curso('SOF-19', 'Análisis y especificacion de software', 4, 'SOF-14', ingenieria_software, avanzado).
 curso('SOF-20', 'Sistemas operativos', 4, 'SOF-09', sistemas_operativos, avanzado).
 
 % --------------------------------------------------------------------
 							% CUATRIMESTRE VI
 % --------------------------------------------------------------------
 curso('SOF-21', 'Redes de computadoras', 4, 'SOF-17', redes, avanzado).
-curso('SOF-23', 'Lenguajes y paradigmas de programación', 4, 'SOF-19', programacion, avanzado).
+curso('SOF-23', 'Lenguajes y paradigmas de programacion', 4, 'SOF-19', programacion, avanzado).
 curso('SOF-24', 'Diseño de software', 4, 'SOF-19', ingenieria_software, avanzado).
 curso('SOF-25', 'Calidad de software', 4, 'SOF-18', ingenieria_software, avanzado).
 
 % --------------------------------------------------------------------
 							% CUATRIMESTRE VII
 % --------------------------------------------------------------------
-curso('SOF-26', 'Diseño de la interacción humano-computadora', 4, 'SOF-24', ingenieria_software, avanzado).
-curso('SOF-27', 'Tópicos avanzados de programación', 4, 'SOF-23', programacion, avanzado).
-curso('SOF-28', 'Investigación de operaciones', 4, 'SOF-09', matematicas, avanzado).
-curso('SOF-29', 'Procesos de ingeniería de software', 4, 'SOF-24', ingenieria_software, avanzado).
+curso('SOF-26', 'Diseño de la interaccion humano-computadora', 4, 'SOF-24', ingenieria_software, avanzado).
+curso('SOF-27', 'Topicos avanzados de programacion', 4, 'SOF-23', programacion, avanzado).
+curso('SOF-28', 'Investigacion de operaciones', 4, 'SOF-09', matematicas, avanzado).
+curso('SOF-29', 'Procesos de ingenieria de software', 4, 'SOF-24', ingenieria_software, avanzado).
 
 % --------------------------------------------------------------------
 							% CUATRIMESTRE VIII
@@ -66,15 +66,15 @@ curso('SOF-29', 'Procesos de ingeniería de software', 4, 'SOF-24', ingenieria_s
 curso('SOF-30', 'Arquitectura de software', 4, 'SOF-29', ingenieria_software, avanzado).
 curso('SOF-31', 'Inteligencia artificial aplicada', 4, 'SOF-29', programacion, avanzado).
 curso('SOF-32', 'Electiva I', 4, 'SOF-27', general, avanzado).
-curso('SOF-33', 'Administración de proyectos informáticos', 4, 'SOF-29', ingenieria_software, avanzado).
+curso('SOF-33', 'Administracion de proyectos informaticos', 4, 'SOF-29', ingenieria_software, avanzado).
 
 % --------------------------------------------------------------------
 							% CUATRIMESTRE IX
 % --------------------------------------------------------------------
-curso('SOF-34', 'Computación y sociedad', 4, 'SOF-33', general, avanzado).
+curso('SOF-34', 'Computacion y sociedad', 4, 'SOF-33', general, avanzado).
 curso('SOF-35', 'Electiva II', 4, 'SOF-30', general, avanzado).
-curso('SOF-36', 'Implementación y mantenimiento de software', 4, 'SOF-30', ingenieria_software, avanzado).
-curso('SOF-37', 'Seguridad informática', 4, 'SOF-29', seguridad, avanzado).
+curso('SOF-36', 'Implementacion y mantenimiento de software', 4, 'SOF-30', ingenieria_software, avanzado).
+curso('SOF-37', 'Seguridad informatica', 4, 'SOF-29', seguridad, avanzado).
 
 
 
@@ -85,7 +85,7 @@ curso('SOF-37', 'Seguridad informática', 4, 'SOF-29', seguridad, avanzado).
 % --------------------------------------------------------------------
 % REGLA 1: Verificar si estudiante puede matricular un curso
 	% "¿Qué cursos puedo matricular si ya llevé X?"
-	% Ejemplo de cómo consultar: puede_matricular(juan, 'SOF-05', ['SOF-01']).
+	% Ejemplo de cómo consultar: puede_matricular(juan, 'SOF-05', ['SOF-01', 'SOF-02']).
 
 
 puede_matricular(_, CodigoCurso, CursosAprobados) :-
@@ -96,7 +96,7 @@ puede_matricular(_, CodigoCurso, CursosAprobados) :-
 
 
 % --------------------------------------------------------------------
-% REGLA 2: Obtener TODOS los cursos disponibles para un estudiante
+% REGLA 2: Obtener TODOS los cursos disponibles para un estudiante por codigo
 	% lista completa de cursos disponibles
 	% findall busca TODAS las soluciones posibles
 	% \+ = no " no incluye las materias ya aprobadas"
@@ -107,6 +107,7 @@ cursos_disponibles(_, CursosAprobados, ListaCursos) :-
     findall(Codigo,(puede_matricular(_, Codigo, CursosAprobados),
 	\+ member(Codigo, CursosAprobados)), ListaCursos).
 % --------------------------------------------------------------------
+
 
 % --------------------------------------------------------------------
 % REGLA 2.1: Obtener TODOS los cursos disponibles para un estudiante por nombre
@@ -120,6 +121,7 @@ cursos_disponibles_nombre(AprobadosCodigos, NombresCursos) :-
              (Requisito = ninguno ; member(Requisito, AprobadosCodigos))),
             NombresCursos).
 % --------------------------------------------------------------------
+
 % --------------------------------------------------------------------
 % REGLA 3: Información completa de un curso
 	% Da el nombre, creditos, area, nivel.
@@ -259,4 +261,46 @@ cursos_cuatrimestre(NumCuatrimestre, ListaCursos) :-
     ; NumCuatrimestre = 12 ->
         ListaCursos = ['SOF-57', 'SOF-58', 'SOF-59']
     ).
+% --------------------------------------------------------------------
+
+
+
+% --------------------------------------------------------------------
+% REGLA 14: Convertir nombres de cursos a códigos
+
+
+nombres_a_codigos(NombresAprobados, CodigosAprobados) :-
+    findall(Codigo, 
+            (member(Nombre, NombresAprobados),
+             curso(Codigo, Nombre, _, _, _, _)),
+            CodigosAprobados).
+% --------------------------------------------------------------------
+			
+
+
+% --------------------------------------------------------------------
+% REGLA 15: Obtener cursos disponibles por CÓDIGO 
+	% Ejemplo: cursos_disponibles_codigo_por_nombre(['Estructuras discretas', 'Introducción a la computación'], CursosCodigo).
+
+cursos_disponibles_codigo_por_nombre(NombresAprobados, ListaCursos) :-
+    nombres_a_codigos(NombresAprobados, CodigosAprobados),
+    findall(Codigo,
+            (puede_matricular(_, Codigo, CodigosAprobados),
+             \+ member(Codigo, CodigosAprobados)),
+            ListaCursos).
+% --------------------------------------------------------------------
+
+
+
+% --------------------------------------------------------------------
+% REGLA 16: Obtener cursos disponibles por NOMBRE 
+	% Ejemplo: cursos_disponibles_nombre_por_nombre(['Estructuras discretas', 'Introducción a la computación'], CursosNombre).
+
+cursos_disponibles_nombre_por_nombre(NombresAprobados, NombresCursos) :-
+    nombres_a_codigos(NombresAprobados, CodigosAprobados),
+    findall(Nombre, 
+            (curso(Codigo, Nombre, _, Requisito, _, _),
+             \+ member(Codigo, CodigosAprobados),
+             (Requisito = ninguno ; member(Requisito, CodigosAprobados))),
+            NombresCursos).
 % --------------------------------------------------------------------

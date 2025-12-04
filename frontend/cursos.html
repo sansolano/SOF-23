@@ -48,7 +48,7 @@
             <div class="filters-row">
                 <div class="filter-group">
                     <label>Buscar por nombre o código</label>
-                    <input type="text" id="searchInput" placeholder="Ej: Bases de Datos, SOF-04">
+                    <input type="text" id="searchInput" placeholder="Ej: Bases de Datos, SOF-14">
                 </div>
                 
                 <div class="filter-group">
@@ -65,20 +65,19 @@
                     <label>Área Temática</label>
                     <select id="areaFilter">
                         <option value="">Todas las áreas</option>
-                        <option value="programacion">Programación</option>
-                        <option value="bases-datos">Bases de Datos</option>
-                        <option value="redes">Redes</option>
-                        <option value="software">Ingeniería de Software</option>
+                        <!-- Las opciones se generan dinámicamente desde JS -->
                     </select>
                 </div>
             </div>
 
-            <p class="search-info">Mostrando <strong id="resultCount">15</strong> cursos</p>
+            <p class="search-info">Mostrando <strong id="resultCount">36</strong> cursos</p>
 
             <div class="courses-grid" id="coursesGrid">
+                <!-- Los cursos se cargan dinámicamente desde JS -->
             </div>
         </div>
     </div>
+
     <div id="modalDetalle" class="modal">
         <div class="modal-content">
             <div id="modalBody"></div>
@@ -86,6 +85,8 @@
         </div>
     </div>
 
-    <script src="js/"></script>
+    <script src="js/navegacion.js"></script>
+    <script src="js/cursos.js"></script>
+    <script src="js/catalogo.js"></script>
 </body>
 </html>
