@@ -36,38 +36,28 @@
             </button>
         </div>
     </div>
-
     <div class="main-content">
         <div class="header">
             <a href="dashboard.html" class="back-btn">← Volver al Dashboard</a>
         </div>
-
-
         <div class="content-section" id="formSection">
             <h2 class="section-title">Obtener Recomendaciones Personalizadas</h2>
-            
             <form id="recommendationForm">
-
                 <button type="submit" class="btn-primary" id="submitBtn">
                     🤖 Generar Recomendaciones con IA
                 </button>
             </form>
         </div>
-
-
         <div class="loading" id="loading">
             <div class="spinner"></div>
             <h3>Analizando tu historial académico...</h3>
             <p>El motor Prolog está evaluando requisitos y la IA está preparando tus recomendaciones</p>
         </div>
-
-
         <div class="results-container" id="resultsContainer">
             <div class="content-section">
                 <h2 class="section-title">✨ Tus Recomendaciones Personalizadas</h2>
                 <div id="recommendationsList"></div>
             </div>
-
             <button class="btn-primary" onclick="nuevaConsulta()">Nueva Consulta</button>
         </div>
     </div>

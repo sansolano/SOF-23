@@ -36,12 +36,10 @@
             </button>
         </div>
     </div>
-
     <div class="main-content">
         <div class="header">
             <a href="dashboard.html" class="back-btn">← Volver al Dashboard</a>
         </div>
-
         <div class="content-section">
             <h2 class="section-title">Catálogo de Cursos - Ingeniería Informática</h2>
             
@@ -50,7 +48,6 @@
                     <label>Buscar por nombre o código</label>
                     <input type="text" id="searchInput" placeholder="Ej: Bases de Datos, SOF-14">
                 </div>
-                
                 <div class="filter-group">
                     <label>Nivel</label>
                     <select id="nivelFilter">
@@ -60,31 +57,24 @@
                         <option value="avanzado">Avanzado</option>
                     </select>
                 </div>
-                
                 <div class="filter-group">
                     <label>Área Temática</label>
                     <select id="areaFilter">
                         <option value="">Todas las áreas</option>
-                        <!-- Las opciones se generan dinámicamente desde JS -->
                     </select>
                 </div>
             </div>
-
             <p class="search-info">Mostrando <strong id="resultCount">36</strong> cursos</p>
-
             <div class="courses-grid" id="coursesGrid">
-                <!-- Los cursos se cargan dinámicamente desde JS -->
             </div>
         </div>
     </div>
-
     <div id="modalDetalle" class="modal">
         <div class="modal-content">
             <div id="modalBody"></div>
             <button class="modal-close" onclick="cerrarModal()">Cerrar</button>
         </div>
     </div>
-
     <script src="js/navegacion.js"></script>
     <script src="js/cursos.js"></script>
     <script src="js/catalogo.js"></script>

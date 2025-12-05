@@ -11,7 +11,6 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     btnLogin.textContent = 'Iniciando sesión...';
 
     try {
-        // Construir la URL con parámetros
         const response = await fetch(`http://localhost:3000/login/${email}/${password}`, {
             method: 'POST'
         });

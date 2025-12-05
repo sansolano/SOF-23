@@ -5,14 +5,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const recommendationsList = document.getElementById("recommendationsList");
     const formSection = document.getElementById("formSection");
 
-    // Ocultar secciones al inicio
     loading.style.display = "none";
     resultsContainer.style.display = "none";
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        // Mostrar loading
         formSection.style.display = "none";
         loading.style.display = "block";
         resultsContainer.style.display = "none";
@@ -80,7 +78,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const recomendacion = dataIA.recomendacion || "No hay recomendaciones disponibles.";
 
-            // Mostrar resultados
             recommendationsList.innerHTML = "";
 
             if (recomendacion !== "No hay recomendaciones disponibles.") {
@@ -93,7 +90,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 recommendationsList.innerHTML += cursosHTML;
             }
 
-            // Mostrar resultados y ocultar loading
             loading.style.display = "none";
             resultsContainer.style.display = "block";
 
@@ -106,7 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// Función para nueva consulta
 function nuevaConsulta() {
     document.getElementById("formSection").style.display = "block";
     document.getElementById("loading").style.display = "none";
